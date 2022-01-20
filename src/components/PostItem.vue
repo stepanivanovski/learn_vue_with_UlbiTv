@@ -4,7 +4,9 @@
       <div><strong>Название:</strong>{{post.title}}</div>
       <div><strong>Описание:</strong>{{post.body}}</div>
     </div>
-    <my-button>
+    <my-button
+      @click="$emit('remove', post)"
+    >
       Удалить
     </my-button>
   </div>
@@ -16,11 +18,6 @@
       post: {
         type: Object,
         required: true,
-      }
-    },
-    methods: {
-      deletePost() {
-        this.$emit('deletePost', this.post)
       }
     }
   }
