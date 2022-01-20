@@ -4,24 +4,28 @@
       <div><strong>Название:</strong>{{post.title}}</div>
       <div><strong>Описание:</strong>{{post.body}}</div>
     </div>
-    <Button :content="'Удалить'"/>
+    <my-button>
+      Удалить
+    </my-button>
   </div>
 </template>
-<script>
-  import Button from './UI/Button.vue';
-  
-  export default {
-    components: {
-      Button,
-    },
+
+<script>  
+  export default { 
     props: {
       post: {
         type: Object,
         required: true,
       }
+    },
+    methods: {
+      deletePost() {
+        this.$emit('deletePost', this.post)
+      }
     }
   }
 </script>
+
 <style>
   .post-item {
     display: flex;

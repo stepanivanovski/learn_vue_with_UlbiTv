@@ -25,6 +25,9 @@
     methods: {
       createPost(post) {       
         this.posts.push(post);
+      },
+      deletePost(post) {
+        console.log(post);
       }
     }
   }

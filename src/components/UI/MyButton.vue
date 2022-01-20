@@ -1,17 +1,12 @@
 <template>
   <button class="btn">
-    {{content}}
+    <slot></slot>
   </button>
 </template>
 
 <script>
-
 export default {
-  props: {
-    content: {
-      type: String,
-    }
-  }
+  name: 'my-button'
 }
 </script>
 
@@ -21,6 +16,7 @@ export default {
     padding: 15px;
     align-self: flex-end;
     background: none;
-    border: 1px solid teal
+    border: 1px solid teal;
+    cursor: pointer;
   }
 </style>
