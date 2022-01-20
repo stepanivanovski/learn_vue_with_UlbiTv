@@ -2,13 +2,11 @@
   <form class="form" v-on:submit.prevent="createPost">
     <h4>Название поста</h4>
     <my-input  
-      v-bind:value="post.title"
-      v-on:input="post.title = $event.target.value" 
+      v-model="post.title"
       placeholder="Название"
     />
     <my-input 
-      v-bind:value="post.body" 
-      v-on:input="post.body = $event.target.value" 
+      v-model="post.body"
       placeholder="Описание"
     />
     <my-button>
