@@ -16,6 +16,7 @@
 </template>
 
 <script> 
+  import requests from './services/requests'
   import PostList from './components/PostList.vue' 
   import PostForm from './components/PostForm.vue'
 
@@ -25,26 +26,35 @@
     },
     data() {
       return {
-        posts: [
-          {id: 1, title: 'JavaScript1', body: 'Описание поста'},
-          {id: 2, title: 'JavaScript2', body: 'Описание поста'},
-          {id: 3, title: 'JavaScript3', body: 'Описание поста'}
-        ],
+        posts: [],
         dialogVisible: false
       }
     },
     methods: {
       createPost(post) {       
         this.posts.push(post);
+        requests.post("/posts", post)
         this.dialogVisible = false;
       },
       removePost(post) {
         this.posts = this.posts.filter(item => item !== post)
+        requests.delete(`/posts/${post.id}`)
       },
       showDialog() {
         this.dialogVisible = true;  
+      },
+      async fetchPost(url) {
+        try {
+          const res = await requests.get("/posts")
+          this.posts = res.data 
+        } catch(e) {
+          alert('Ошибка')
+        }
       }
-    }
+    },
+    mounted() {
+      this.fetchPost();
+    },
   }
 </script>
 
