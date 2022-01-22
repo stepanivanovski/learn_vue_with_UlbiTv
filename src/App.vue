@@ -1,6 +1,9 @@
 <template>
   <div class="app">
     <h1>Страница с постами</h1>
+    <my-input
+      v-model="searchQuery"
+    />
     <div class="app__btns">
       <my-button
         @click="showDialog"
@@ -19,7 +22,7 @@
     <div v-else-if="loading">Загрузка...</div>    
     <div v-else>
       <post-list 
-      :posts="sortedPost"
+      :posts="sortedAndSearchedPosts"
       @remove="removePost"/>
     </div>
   </div>
@@ -43,6 +46,7 @@
           { value: 'title', name: 'По названию'},
           { value: 'body', name: 'По содержимому'}
         ],
+        searchQuery: '',
         loading: true,
         error: false,
       }
@@ -81,6 +85,9 @@
           return a[this.selectedSort]?.localeCompare(b[this.selectedSort])
         })
       },
+      sortedAndSearchedPosts() {
+        return this.sortedPost.filter(post => post.title.includes(this.searchQuery))
+      }
     }
   }
 </script>
