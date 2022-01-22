@@ -25,6 +25,19 @@
       :posts="sortedAndSearchedPosts"
       @remove="removePost"/>
     </div>
+    <div class="page__wrapper">
+      <div 
+        v-for="pageNumber in totalPages" 
+        :key="pageNumber" 
+        :class="{
+          'current-page': page === pageNumber 
+        }" 
+        class="page"
+        @click="changePage(pageNumber)"
+      >
+        {{ pageNumber }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -49,6 +62,9 @@
         searchQuery: '',
         loading: true,
         error: false,
+        page: 1,
+        limit: 3,
+        totalPages: 0,
       }
     },
     methods: {
@@ -64,9 +80,17 @@
       showDialog() {
         this.dialogVisible = true;  
       },
+      changePage(pageNumber) {
+        this.page = pageNumber
+      },
       async fetchPost(url) {
         try {
-          const res = await requests.get("/posts")
+          this.loading = true;
+          const res = await requests.get("/posts", { 
+            _page: this.page,
+            _limit: this.limit
+          })
+          this.totalPages = Math.ceil(res.headers['x-total-count'] / this.limit);
           this.posts = res.data 
         } catch(e) {
           alert('Ошибка')
@@ -78,6 +102,11 @@
     },
     mounted() {
       this.fetchPost();
+    },
+    watch: {
+      page() {
+        this.fetchPost()
+      }
     },
     computed: {
       sortedPost() {
@@ -105,4 +134,16 @@
     display: flex;
     justify-content: space-between;
   }
+  .page {
+    border: 1px solid black;
+    padding: 10px;
+  } 
+  .page__wrapper {
+    display: flex;
+    margin-top: 15px;
+  }
+  .current-page {
+    border: 5px solid teal;
+  }
+
 </style>

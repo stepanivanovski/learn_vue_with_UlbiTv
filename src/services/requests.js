@@ -2,8 +2,8 @@ import axios from "axios";
 
 class Requets  {
   baseApi = 'http://localhost:3000'
-  get =  async (url) => {
-    return await axios.get(this.baseApi + url)
+  get =  async (url, params = {}) => {
+    return await axios.get(this.baseApi + url, { params })
   }
   post = async (url, data) => {
     return await axios.post(this.baseApi + url, {
