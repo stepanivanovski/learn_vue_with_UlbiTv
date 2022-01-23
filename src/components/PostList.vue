@@ -1,12 +1,12 @@
 <template>
   <div v-if="posts.length > 0">
     <transition-group name="list" tag="p">
-       <post-item 
-      class="post" 
-      v-for="post in posts" 
-      :post="post"
-      :key="post.id"
-      @remove="$emit('remove', post)"/>
+      <post-item 
+        class="post" 
+        v-for="post in posts" 
+        :post="post"
+        :key="post.id"
+        @remove="$emit('remove', post)"/>
     </transition-group> 
   </div>
   <h2 v-else style="color:red">

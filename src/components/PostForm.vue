@@ -1,7 +1,7 @@
 <template>
   <form class="form" v-on:submit.prevent="createPost">
     <h4>Название поста</h4>
-    <my-input  
+    <my-input 
       v-model="post.title"
       placeholder="Название"
     />
@@ -14,7 +14,6 @@
     </my-button>
   </form>
 </template>
-
 <script>
 export default {
 
@@ -23,13 +22,12 @@ export default {
       post: {
         title: '',
         body: '',
-      },
-      content: 'сшздать'
+      }
     }
   },
   methods: {
     createPost() {
-      this.post.id = Date.now();
+      this.post.id = Date.now().toString().slice(-4);
       this.$emit('create', this.post);
       this.post = {
         title: '',
