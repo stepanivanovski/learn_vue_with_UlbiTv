@@ -1,13 +1,14 @@
 export default {
-  mounted(el, binding) {
-    console.log(el, binding);
+  mounted(el, b) {
+    console.log(el, b);
     const options = {
       rootMargin: '0px',
       threshold: 1.0
     }
     const callback = (entries, observer) => {
+      console.log(b.value);
       if (entries[0].isIntersecting) {
-        binding.value();
+        b.value.loadMorePosts();
       }
       };
     const observer = new IntersectionObserver(callback, options);

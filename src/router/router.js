@@ -1,4 +1,5 @@
 import Main from '@/pages/Main';
+import StorePostsPage from '@/pages/StorePostsPage';
 import PostsPage from '@/pages/PostsPage';
 import About from '@/pages/About';
 import PostPage from '@/pages/PostPage'
@@ -9,6 +10,10 @@ const routes = [
   {
     path: '/',
     component: Main
+  },
+  {
+    path: '/store',
+    component: StorePostsPage
   },
   {
     path: '/posts',

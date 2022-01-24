@@ -2,7 +2,8 @@
   <div>
     <h1>Страница с постам</h1>
     <my-input
-      v-model="searchQuery"
+      :model-value="searchQuery"
+      @update:model-value='setSearchQuery'
     />
     <div class="app__btns">
       <my-button
@@ -11,7 +12,8 @@
         Создать пост
       </my-button>
       <my-select 
-        v-model="selectedSort"
+        :model-value="selectedSort"
+        @update:model-value="setSelectedSort"
         :options="sortOptions"
       />
     </div>
@@ -51,6 +53,7 @@
   import requests from '@/services/requests'
   import PostList from '@/components/PostList.vue' 
   import PostForm from '@/components/PostForm.vue'
+  import { mapState, mapGetters, mapActions, mapMutations } from 'vuex';
 
   export default {
     components: {
@@ -58,28 +61,27 @@
     },
     data() {
       return {
-        posts: [],
-        selectedSort: '',
-        sortOptions: [
-          { value: 'title', name: 'По названию'},
-          { value: 'body', name: 'По содержимому'}
-        ],
-        searchQuery: '',
-        loading: true,
-        error: false,
-        page: 1,
-        limit: 3,
-        totalPages: 0    
+        dialogVisible: false,     
       }
     },
     methods: {
+      ...mapMutations({
+        setPage:'posts/setPage',
+        setSearchQuery: 'posts/setSearchQuery',
+        setSelectedSort: 'posts/setSelectedSort',
+        setPosts: 'posts/setPosts'
+      }),
+      ...mapActions({
+        loadMorePosts:'posts/loadMorePosts',
+        fetchPosts: 'posts/fetchPosts'
+      }),
       createPost(post) {       
-        this.posts.push(post);
+        this.setPosts([...this.posts, post]);
         requests.post("/posts", post)
         this.dialogVisible = false;
       },
       removePost(post) {
-        this.posts = this.posts.filter(item => item !== post)
+        this.setPosts(this.posts.filter(item => item !== post))
         requests.delete(`/posts/${post.id}`)
       },
       showDialog() {
@@ -87,39 +89,7 @@
       },
       // changePage(pageNumber) {
       //   this.page = pageNumber
-      // },  
-      async fetchPosts() {
-      try {
-        this.loading = true;
-        const res = await requests.get("/posts", { 
-          _page: this.page,
-          _limit: this.limit
-        })
-        this.totalPages = Math.ceil(res.headers['x-total-count'] / this.limit);
-        this.posts = res.data; 
-      } catch(e) {
-        alert('Ошибка')
-        this.error = true;
-      } finally {
-        this.loading = false;
-      }
-    },
-      async loadMorePosts() {
-        try {
-          this.page = this.page +=1;
-           const res = await requests.get("/posts", { 
-            _page: this.page,
-            _limit: this.limit
-          })
-          this.totalPages = Math.ceil(res.headers['x-total-count'] / this.limit);
-          this.posts = [...this.posts, ...res.data] 
-        } catch(e) {
-          alert('Ошибка')
-          this.error = true;
-        } finally {
-          this.loading = false;
-        }
-      }   
+      // },     
     },
     mounted() {
       if (!this.posts.length) {
@@ -132,14 +102,22 @@
       // }
     },
     computed: {
-      sortedPosts() {
-        return this.posts.sort((a, b) => {
-          return a[this.selectedSort]?.localeCompare(b[this.selectedSort])
-        })
-      },
-      sortedAndSearchedPosts() {
-        return this.sortedPosts.filter(post => post.title.includes(this.searchQuery))
-      }
+      ...mapState({
+        posts: state => state.posts.posts,
+        selectedSort: state => state.posts.selectedSort,
+        sortOptions: state => state.posts.sortOptions,
+        searchQuery: state => state.posts.searchQuery,
+        loading: state => state.posts.loading,
+        error: state => state.posts.error,
+        page: state => state.posts.page,
+        limit: state => state.posts.limit,
+        totalPages: state => state.posts.totalPages
+      }),
+      ...mapGetters({
+        sortedPosts: 'posts/sortedPosts',
+        sortedAndSearchedPosts: 'posts/sortedAndSearchedPosts'
+      })
+     
     }
   }
 </script>
