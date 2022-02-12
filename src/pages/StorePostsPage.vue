@@ -103,7 +103,8 @@
     },
     computed: {
       ...mapState({
-        posts: state => state.posts.posts,
+        // posts: state => state.posts.posts,
+        posts: 'posts',
         selectedSort: state => state.posts.selectedSort,
         sortOptions: state => state.posts.sortOptions,
         searchQuery: state => state.posts.searchQuery,

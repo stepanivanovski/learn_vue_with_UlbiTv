@@ -6,7 +6,7 @@
         v-for="post in posts" 
         :post="post"
         :key="post.id"
-        @remove="$emit('remove', post)"/>
+        @remove="$emit('remove', $event)"/>
     </transition-group> 
   </div>
   <h2 v-else style="color:red">

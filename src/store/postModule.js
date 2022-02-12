@@ -42,7 +42,6 @@ export const postModule = {
       state.totalPages = totalPages
     },
     setSearchQuery(state, searchQuery) {
-      console.log(1,2,3);
       state.searchQuery = searchQuery
     },
     setSelectedSort(state, selectedSort){

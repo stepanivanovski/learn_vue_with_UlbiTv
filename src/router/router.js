@@ -1,5 +1,6 @@
 import Main from '@/pages/Main';
 import StorePostsPage from '@/pages/StorePostsPage';
+import PostsPageCompositionApi from '@/pages/PostsPageCompositionApi'
 import PostsPage from '@/pages/PostsPage';
 import About from '@/pages/About';
 import PostPage from '@/pages/PostPage'
@@ -18,6 +19,10 @@ const routes = [
   {
     path: '/posts',
     component: PostsPage
+  },
+  {
+    path: '/composition',
+    component: PostsPageCompositionApi
   },
   {
     path: '/about',
