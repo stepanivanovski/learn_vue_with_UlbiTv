@@ -20,7 +20,7 @@
     </my-dialog>
     <div v-if="error">Ошибка</div>
     <div v-if="loading">Загрузка...</div>    
-    <div v-if="posts">
+    <div v-else>
       <post-list 
         :posts="sortedAndSearchedPosts"
         @remove="removePost"/>

@@ -64,47 +64,9 @@
         dialogVisible: false,     
       }
     },
-    methods: {
-      ...mapMutations({
-        setPage:'posts/setPage',
-        setSearchQuery: 'posts/setSearchQuery',
-        setSelectedSort: 'posts/setSelectedSort',
-        setPosts: 'posts/setPosts'
-      }),
-      ...mapActions({
-        loadMorePosts:'posts/loadMorePosts',
-        fetchPosts: 'posts/fetchPosts'
-      }),
-      createPost(post) {       
-        this.setPosts([...this.posts, post]);
-        requests.post("/posts", post)
-        this.dialogVisible = false;
-      },
-      removePost(post) {
-        this.setPosts(this.posts.filter(item => item !== post))
-        requests.delete(`/posts/${post.id}`)
-      },
-      showDialog() {
-        this.dialogVisible = true;  
-      },
-      // changePage(pageNumber) {
-      //   this.page = pageNumber
-      // },     
-    },
-    mounted() {
-      if (!this.posts.length) {
-        this.fetchPosts();
-      }
-    },
-    watch: {
-      // page() {
-      //   this.fetchPost()
-      // }
-    },
     computed: {
       ...mapState({
-        // posts: state => state.posts.posts,
-        posts: 'posts',
+        posts: state => state.posts.selectedSort,
         selectedSort: state => state.posts.selectedSort,
         sortOptions: state => state.posts.sortOptions,
         searchQuery: state => state.posts.searchQuery,
@@ -118,7 +80,41 @@
         sortedPosts: 'posts/sortedPosts',
         sortedAndSearchedPosts: 'posts/sortedAndSearchedPosts'
       })
-     
+    },
+    watch: {
+      // page() {
+      //   this.fetchPost()
+      // }
+    }, 
+    mounted() {
+      if (!this.posts.length) {
+        this.fetchPosts();
+      }
+    },
+    methods: {
+      ...mapMutations({
+        setSearchQuery: 'posts/setSearchQuery',
+        setSelectedSort: 'posts/setSelectedSort',
+      }),
+      ...mapActions({
+        loadMorePosts:'posts/loadMorePosts',
+        fetchPosts: 'posts/fetchPosts',
+      }),
+      createPost(post) {
+        this.$store.dispatch('posts/createPost', {post})
+          .then(() => {
+            this.dialogVisible = false
+          })
+      },
+      removePost(post) {
+        this.$store.dispatch('posts/removePost', {post})
+      },
+      showDialog() {
+        this.dialogVisible = true;  
+      },
+      // changePage(pageNumber) {
+      //   this.page = pageNumber
+      // },     
     }
   }
 </script>
