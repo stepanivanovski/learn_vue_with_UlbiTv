@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1>Страница с постам</h1>
-    <!-- <my-learn-component tent="p"/> -->
     <my-input
       v-model="searchQuery"
     />
@@ -37,36 +36,55 @@
 
 <script>  
   import MyLearnComponent  from '@/components/UI/MyLearnComponent'
-  import requests from '@/services/requests'
   import PostList from '@/components/PostList.vue' 
   import PostForm from '@/components/PostForm.vue'
+  import usePosts from '@/hooks/usePosts'
+  import useSortedPosts from '@/hooks/useSortedPosts'
+  import useSortedAndSearchedPosts from '@/hooks/useSortedAndSearchedPosts'
+  import {ref} from 'vue'
+
 
   export default {
     components: {
       PostList, PostForm, MyLearnComponent
     },
-    data() {
-      return {
-        dialogVisible: false,
-        sortOptions: [
-          { value: 'title', name: 'По названию'},
-          { value: 'body', name: 'По содержимому'}
-        ]
-      }
-    },
-    setup(props) {
-      const {posts, totalPages, loading, error} = usePosts(10);
+    setup() {
+      const sortOptions = [
+        { value: 'title', name: 'По названию'},
+        { value: 'body', name: 'По содержимому'}
+      ]
+      const dialogVisible = ref(false)
+
+      const {
+        posts, 
+        totalPages, 
+        loading, 
+        error, 
+        page, 
+        createPost, 
+        removePost
+      } = usePosts({limit:10, dialogVisible});
+      
       const {selectedSort, sortedPosts} = useSortedPosts(posts)
       const {searchQuery, sortedAndSearchedPosts} = useSortedAndSearchedPosts(sortedPosts);
+      
+      const showDialog = () => { dialogVisible.value = true }
 
       return {
         posts,
         totalPages,
         loading,
         error,
+        page,
+        dialogVisible,
+        createPost,
+        removePost,
+        sortOptions,
+        showDialog,
         selectedSort, 
         sortedPosts,
-        earchQuery, sortedAndSearchedPostsл
+        searchQuery, 
+        sortedAndSearchedPosts
       }
     }
   }  
