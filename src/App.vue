@@ -1,7 +1,7 @@
 <template> 
-  <navbar></navbar>
+  <Navbar />
   <div class="app"> 
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 <script> 
@@ -9,7 +9,7 @@
 
   export default {
     components: {
-      Navbar
+      Navbar, 
     }
   }  
 </script>

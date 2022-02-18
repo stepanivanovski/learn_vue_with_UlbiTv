@@ -1,7 +1,11 @@
 <template lang="">
-  <div v-if="show" class="dialog" @click.self="hideDialog">
+  <div
+    v-if="show"
+    class="dialog"
+    @click.self="hideDialog"
+  >
     <div class="dialog__content">
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>
@@ -9,7 +13,7 @@
   import toggleMixin from '@/mixins/toggleMixin'
 
 export default {
-  name: 'my-dialog',
+  name: 'MyDialog',
   mixins: [toggleMixin] 
 }
 </script>

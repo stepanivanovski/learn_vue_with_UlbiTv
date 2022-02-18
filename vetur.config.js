@@ -9,7 +9,7 @@ module.exports = {
     "vetur.experimental.templateInterpolationService": true
   },
   // **optional** default: `[{ root: './' }]`
-  // support monoreposi
+  // support monoreposi     
   projects: [
     './packages/repo2', // Shorthand for specifying only the project root location
     {

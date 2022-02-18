@@ -7,12 +7,10 @@
       Проба
     </my-button>
   </div>
-  
 </template>
 <script>
 export default {
-  props: {tent: String, key: Number}
-  ,
+  props: {tent: String, key: Number},
   methods: {
     proba(ev) {
       console.log(ev);

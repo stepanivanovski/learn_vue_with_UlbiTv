@@ -1,5 +1,8 @@
 <template>
-  <form class="form" v-on:submit.prevent="createPost">
+  <form
+    class="form"
+    @submit.prevent="createPost"
+  >
     <h4>Название поста</h4>
     <my-input 
       v-model="post.title"
@@ -17,7 +20,8 @@
 </template>
 <script>
 export default {
-
+  name: 'Item',
+  emits:["create"],
   data() {
     return {
       post: {

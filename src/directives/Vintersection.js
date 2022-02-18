@@ -5,7 +5,7 @@ export default {
       rootMargin: '0px',
       threshold: 1.0
     }
-    const callback = (entries, observer) => {
+    const callback = (entries) => {
       console.log(b.value);
       if (entries[0].isIntersecting) {
         b.value.loadMorePosts();

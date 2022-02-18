@@ -1,8 +1,8 @@
 <template>
   <div class="post-item">
     <div>
-      <div><strong>Название:</strong>{{post.title}}</div>
-      <div><strong>Описание:</strong>{{post.body}}</div>
+      <div><strong>Название:</strong>{{ post.title }}</div>
+      <div><strong>Описание:</strong>{{ post.body }}</div>
     </div>
     <div class="post__btns">
       <my-button
@@ -21,6 +21,7 @@
 
 <script>  
   export default { 
+    emits: ["remove"],
     props: {
       post: {
         type: Object,
@@ -37,6 +38,6 @@
     justify-content: space-between;
   }
   .post__btns {
-    display:
+    display: flex;
   }
 </style>

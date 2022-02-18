@@ -3,7 +3,7 @@
     <h1>Страница с постам</h1>
     <my-input
       :model-value="searchQuery"
-      @update:model-value='setSearchQuery'
+      @update:model-value="setSearchQuery"
     />
     <div class="app__btns">
       <my-button
@@ -18,14 +18,19 @@
       />
     </div>
     <my-dialog v-model:show="dialogVisible">
-      <post-form @create="createPost"/>
+      <post-form @create="createPost" />
     </my-dialog>
-    <div v-if="error">Ошибка</div>
-    <div v-else-if="loading">Загрузка...</div>    
+    <div v-if="error">
+      Ошибка
+    </div>
+    <div v-else-if="loading">
+      Загрузка...
+    </div>    
     <div v-else>
       <post-list 
         :posts="sortedAndSearchedPosts"
-        @remove="removePost"/>
+        @remove="removePost"
+      />
     </div>
     <!-- <div class="page__wrapper">
       <div 
@@ -45,12 +50,10 @@
     v-intersection="{loadMorePosts, page, totalPages}" 
     class="observer" 
     v-if="page < totalPages"
-  >
-  </div>
+  />
 </template>
 
 <script> 
-  import requests from '@/services/requests'
   import PostList from '@/components/PostList.vue' 
   import PostForm from '@/components/PostForm.vue'
   import { mapState, mapGetters, mapActions, mapMutations } from 'vuex';

@@ -16,14 +16,19 @@
       />
     </div>
     <my-dialog v-model:show="dialogVisible">
-      <post-form @create="createPost"/>
+      <post-form @create="createPost" />
     </my-dialog>
-    <div v-if="error">Ошибка</div>
-    <div v-if="loading">Загрузка...</div>    
+    <div v-if="error">
+      Ошибка
+    </div>
+    <div v-if="loading">
+      Загрузка...
+    </div>    
     <div v-else>
       <post-list 
         :posts="sortedAndSearchedPosts"
-        @remove="removePost"/>
+        @remove="removePost"
+      />
     </div>
     <!-- <div class="page__wrapper">
       <div 
@@ -43,19 +48,18 @@
     v-intersection="{ loadMorePosts, page, totalPages }" 
     class="observer" 
     v-if="page < totalPages"
-  >
-  </div>
+  />
 </template>
 
 <script>  
-  import MyLearnComponent  from '@/components/UI/MyLearnComponent'
   import requests from '@/services/requests'
   import PostList from '@/components/PostList.vue' 
   import PostForm from '@/components/PostForm.vue'
+  // import { computed } from 'vue'
 
   export default {
     components: {
-      PostList, PostForm, MyLearnComponent
+      PostList, PostForm
     },
     data() {
       return {
@@ -75,13 +79,18 @@
       }
     },
     computed: {
+      /* eslint-disable */
       sortedPosts() {
         return this.posts.sort((a, b) => {
           return a[this.selectedSort]?.localeCompare(b[this.selectedSort])
         })
       },
+      /* eslint-disable */
       sortedAndSearchedPosts() {
         return this.sortedPosts.filter(post => post.title.includes(this.searchQuery))
+      },
+      currentPage() {
+        return this.page
       }
     },
     watch: {
@@ -100,7 +109,7 @@
       }, 
       async removePost(post) {
         try {
-          const response = await requests.delete(`/posts/${post.id}`)
+          await requests.delete(`/posts/${post.id}`)
           this.posts = this.posts.filter(item => item !== post)
         } catch(e) {
           alert('Ошибка')
@@ -108,7 +117,7 @@
       }, 
       async createPost(post) {
         try {
-          const response = await requests.post("/posts", post)
+          await requests.post("/posts", post)
           this.posts.push(post);
           this.dialogVisible = false;
         }catch(e) {

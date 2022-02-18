@@ -1,13 +1,21 @@
 <template lang="">
- <input class="input" :value="modelValue" @input="updateInput" type="text">
+  <input
+    class="input"
+    :value="modelValue"
+    @input="updateInput"
+    type="text"
+  >
 </template>
 
 <script>
 export default {
-  name: 'my-input',
-
+  name: 'MyInput',
+  emits: ['update:modelValue'],
   props: {
-    modelValue: [Number, String]
+    modelValue: {
+     type: [Number, String],
+     required: true
+    }  
   },
   methods: {
     updateInput(event) {
